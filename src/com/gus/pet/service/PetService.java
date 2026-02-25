@@ -1,6 +1,7 @@
 package com.gus.pet.service;
 
 import com.gus.pet.entity.Pet;
+import com.gus.pet.entity.petType;
 import com.gus.pet.repository.PetRepository;
 
 import java.util.Scanner;
@@ -19,6 +20,7 @@ public class PetService {
     Pet pet = new Pet();
 
 
+
     public void registerPet() {
         short counter = 1;
 
@@ -32,14 +34,23 @@ public class PetService {
                     Matcher matcher = patter.matcher(answer);
                     if (matcher.find()) {
                         pet.name = matcher.group();
-
                     } else {
-                        System.out.println("Not Informed");
+                        throw new IllegalArgumentException("You must write a name and a surname!");
                     }
                     counter++;
                     break;
                 case 2:
                     repository.readForm(counter);
+                    answer  = input.nextLine();
+                    if(answer.equals("Dog")){
+                        pet.type = petType.PET_TYPE_DOG;
+                    }
+                    else if(answer.equals("Cat")){
+                        pet.type = petType.PET_TYPE_CAT;
+                    }
+                    else{
+                        pet.type = petType.PET_TYPE_NOT_PROVIDED;
+                    }
                     counter++;
                     break;
                 case 3:

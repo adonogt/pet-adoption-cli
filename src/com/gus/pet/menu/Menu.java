@@ -7,12 +7,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Menu {
-    private Scanner input;
+    public Scanner input;
     public Menu(Scanner keyboard) {
         this.input = keyboard;
     }
 
-    public void printOptions() {
+    public boolean printOptions() {
 
         PetService service = new PetService(input);
         System.out.println("1 - Register a new pet.");
@@ -52,15 +52,13 @@ public class Menu {
                         System.out.println("System Finished");
                         break;
                     default:
-                        System.out.println("Invalid");
                         break;
                 }
+                return true;
             } else {
-                System.out.println("Invalid result");
+              return false;
             }
-        } else {
-            System.out.println("Invalid Option");
         }
-
+        return false;
     }
 }
