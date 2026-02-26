@@ -1,6 +1,7 @@
 package com.gus.pet.service;
 
 import com.gus.pet.entity.Pet;
+import com.gus.pet.entity.petSex;
 import com.gus.pet.entity.petType;
 import com.gus.pet.repository.PetRepository;
 
@@ -20,18 +21,21 @@ public class PetService {
     Pet pet = new Pet();
 
 
-
     public void registerPet() {
         short counter = 1;
+        String answer;
+        String regex;
+        Pattern patter;
+        Matcher matcher;
 
         while (counter < 8) {
             switch (counter) {
                 case 1:
                     repository.readForm(counter);
-                    String answer = input.nextLine();
-                    String regex = "([a-zA-Z])+(\\s)+([a-zA-Z])";
-                    Pattern patter = Pattern.compile(regex);
-                    Matcher matcher = patter.matcher(answer);
+                    answer = input.nextLine();
+                    regex = "([a-zA-Z])+(\\s)+([a-zA-Z])";
+                    patter = Pattern.compile(regex);
+                    matcher = patter.matcher(answer);
                     if (matcher.find()) {
                         pet.name = matcher.group();
                     } else {
@@ -41,24 +45,39 @@ public class PetService {
                     break;
                 case 2:
                     repository.readForm(counter);
-                    answer  = input.nextLine();
-                    if(answer.equals("Dog")){
+                    answer = input.nextLine();
+                    if (answer.equals("Dog")) {
                         pet.type = petType.PET_TYPE_DOG;
-                    }
-                    else if(answer.equals("Cat")){
+                    } else if (answer.equals("Cat")) {
                         pet.type = petType.PET_TYPE_CAT;
-                    }
-                    else{
+                    } else {
                         pet.type = petType.PET_TYPE_NOT_PROVIDED;
                     }
                     counter++;
                     break;
                 case 3:
                     repository.readForm(counter);
+                    answer = input.nextLine();
+                    if (answer.equals("Male")) {
+                        pet.sex = petSex.PET_SEX_MALE;
+                    } else if (answer.equals("Female")) {
+                        pet.sex = petSex.PET_SEX_FEMALE;
+                    } else {
+                        pet.sex = petSex.PET_SEX_NOT_PROVIDED;
+                    }
                     counter++;
                     break;
                 case 4:
                     repository.readForm(counter);
+                    System.out.println("\n.i - Write your house number:");
+                    answer = input.nextLine();
+                    pet.addrHouseNumber = answer;
+                    System.out.println("\n.ii - Write your city:");
+                    answer = input.nextLine();
+                    pet.addrCity = answer;
+                    System.out.println("\n.iii - Write your street:");
+                    answer = input.nextLine();
+                    pet.addrStreet = answer;
                     counter++;
                     break;
                 case 5:
