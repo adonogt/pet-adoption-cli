@@ -7,8 +7,8 @@ public class Pet {
     public String addrCity;
     public String addrStreet;
     public String breed;
-    public int age;
-    public int weight;
+    public String age;
+    public String weight;
     public petType type;
     public petSex sex;
 

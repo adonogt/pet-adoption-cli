@@ -1,9 +1,10 @@
 package com.gus.pet.repository;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import com.gus.pet.entity.Pet;
+
+import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class PetRepository {
     File file = new File("src/resources/pet_registration_form.txt");
@@ -38,5 +39,34 @@ public class PetRepository {
 
         return  false;
 
+    }
+
+    public void savePet(Pet pet){
+
+//        File folderDirectory = new File("registered-pets");
+//        boolean isDirectoryCreated = folderDirectory.mkdir();
+//
+//
+//        if(isDirectoryCreated){
+//            LocalDateTime dateTime = LocalDateTime.now();
+//            DateTimeFormatter formatter =  DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmm");
+//            System.out.println(dateTime);
+//            String petFormat = dateTime.format(formatter);
+//            StringBuilder sb = new StringBuilder();
+//            String path = "registered-pets";
+//            sb.append(path).append(petFormat).append("-").append(pet.name.replace(" ","").toUpperCase());
+//            String petFilePathWithName = sb;
+//            File petFile = new File(sb);
+//            try (FileWriter fw = new FileWriter(file, true);
+//                 BufferedWriter bw = new BufferedWriter(fw)) {
+//                bw.write("The DevDojo is beautiful, the best course in Brazil!!!");
+//                bw.newLine();
+//                bw.write("Java is the Way!!");
+//                bw.flush();
+//            } catch (IOException ex) {
+//                ex.printStackTrace();
+//            }
+//
+//        }
     }
 }

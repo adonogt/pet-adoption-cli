@@ -9,6 +9,8 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.gus.pet.entity.Pet.NOT_PROVIDED;
+
 
 public class PetService {
     private Scanner input;
@@ -33,7 +35,7 @@ public class PetService {
                 case 1:
                     repository.readForm(counter);
                     answer = input.nextLine();
-                    regex = "([a-zA-Z])+(\\s)+([a-zA-Z])";
+                    regex = "([a-zA-Z])+(\\s)+([a-zA-Z])+";
                     patter = Pattern.compile(regex);
                     matcher = patter.matcher(answer);
                     if (matcher.find()) {
@@ -82,15 +84,50 @@ public class PetService {
                     break;
                 case 5:
                     repository.readForm(counter);
+                    answer = input.nextLine();
+                    regex = "(\\d)+(\\.)*(\\d)*";
+                    patter = Pattern.compile(regex);
+                    matcher = patter.matcher(answer);
+                    if (matcher.find()) {
+                        pet.age = matcher.group();
+                    } else {
+                        pet.age = NOT_PROVIDED;
+                    }
                     counter++;
                     break;
                 case 6:
                     repository.readForm(counter);
+                    answer = input.nextLine();
+                    regex = "(\\d)+(\\.)*(\\d)*";
+                    patter = Pattern.compile(regex);
+                    matcher = patter.matcher(answer);
+                    if (matcher.find()) {
+                        pet.weight = matcher.group();
+                    } else {
+                        pet.weight = NOT_PROVIDED;
+                    }
                     counter++;
                     break;
                 case 7:
                     repository.readForm(counter);
+                    answer = input.nextLine();
+                    regex = "([a-zA-Z])+(\\s)*([a-zA-Z])*";
+                    patter = Pattern.compile(regex);
+                    matcher = patter.matcher(answer);
+                    if (matcher.find()) {
+                        pet.breed = matcher.group();
+                    } else {
+                        pet.breed = NOT_PROVIDED;
+                    }
                     counter++;
+
+                    System.out.println("Name: " + pet.name);
+                    System.out.println("City: " + pet.addrCity);
+                    System.out.println("Street: " + pet.addrStreet);
+                    System.out.println("House Number: " + pet.addrHouseNumber);
+                    System.out.println("Age: " + pet.age);
+                    System.out.println("Weight: " + pet.weight);
+                    System.out.println("Breed: " + pet.breed);
                     break;
 
             }
