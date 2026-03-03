@@ -11,4 +11,8 @@ public enum petSex {
     petSex(String sex) {
         this.sex = sex;
     }
+
+    public String getSex() {
+        return sex;
+    }
 }

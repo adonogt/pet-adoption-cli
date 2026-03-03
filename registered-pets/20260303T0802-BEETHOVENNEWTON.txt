@@ -1,0 +1,7 @@
+1 - Beethoven Newton
+2 - Dog
+3 - Male
+4 - 123, Maple Street, Los Angeles
+5 - 5 years old
+6 - 85 kg
+7 - Saint Bernard

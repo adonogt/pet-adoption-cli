@@ -71,15 +71,17 @@ public class PetService {
                     break;
                 case 4:
                     repository.readForm(counter);
+                    StringBuilder sb = new StringBuilder();
                     System.out.println("\n.i - Write your house number:");
                     answer = input.nextLine();
-                    pet.addrHouseNumber = answer;
-                    System.out.println("\n.ii - Write your city:");
+                    sb.append(answer).append(", ");
+                    System.out.println("\n.ii - Write your street:");
                     answer = input.nextLine();
-                    pet.addrCity = answer;
-                    System.out.println("\n.iii - Write your street:");
+                    sb.append(answer).append(", ");
+                    System.out.println("\n.iii - Write your city:");
                     answer = input.nextLine();
-                    pet.addrStreet = answer;
+                    sb.append(answer);
+                    pet.addr = sb.toString();
                     counter++;
                     break;
                 case 5:
@@ -90,6 +92,11 @@ public class PetService {
                     matcher = patter.matcher(answer);
                     if (matcher.find()) {
                         pet.age = matcher.group();
+                        float age = Float.parseFloat(pet.age);
+                        if(age > 20.00F)
+                        {
+                            throw new IllegalArgumentException("Exceed age limits");
+                        }
                     } else {
                         pet.age = NOT_PROVIDED;
                     }
@@ -103,6 +110,11 @@ public class PetService {
                     matcher = patter.matcher(answer);
                     if (matcher.find()) {
                         pet.weight = matcher.group();
+                        float weight = Float.parseFloat(pet.weight);
+                        if(weight > 60.00F || weight < 0.5F)
+                        {
+                            throw new IllegalArgumentException("Exceed weight limits");
+                        }
                     } else {
                         pet.weight = NOT_PROVIDED;
                     }
