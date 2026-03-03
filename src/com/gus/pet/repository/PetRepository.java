@@ -43,30 +43,33 @@ public class PetRepository {
 
     public void savePet(Pet pet){
 
-//        File folderDirectory = new File("registered-pets");
-//        boolean isDirectoryCreated = folderDirectory.mkdir();
-//
-//
-//        if(isDirectoryCreated){
-//            LocalDateTime dateTime = LocalDateTime.now();
-//            DateTimeFormatter formatter =  DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmm");
-//            System.out.println(dateTime);
-//            String petFormat = dateTime.format(formatter);
-//            StringBuilder sb = new StringBuilder();
-//            String path = "registered-pets";
-//            sb.append(path).append(petFormat).append("-").append(pet.name.replace(" ","").toUpperCase());
-//            String petFilePathWithName = sb;
-//            File petFile = new File(sb);
-//            try (FileWriter fw = new FileWriter(file, true);
-//                 BufferedWriter bw = new BufferedWriter(fw)) {
-//                bw.write("The DevDojo is beautiful, the best course in Brazil!!!");
-//                bw.newLine();
-//                bw.write("Java is the Way!!");
-//                bw.flush();
-//            } catch (IOException ex) {
-//                ex.printStackTrace();
-//            }
-//
-//        }
-    }
+        File folderDirectory = new File("registered-pets");
+        boolean isDirectoryCreated = folderDirectory.mkdir();
+
+
+            LocalDateTime dateTime = LocalDateTime.now();
+            DateTimeFormatter formatter =  DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmm");
+            System.out.println(dateTime);
+            String petFormat = dateTime.format(formatter);
+            StringBuilder sb = new StringBuilder();
+            String path = "registered-pets/";
+            sb.append(path).append(petFormat).append("-").append(pet.name.replace(" ","").toUpperCase()).append(".txt");
+            String petFilePathWithName = sb.toString();
+            File petFile = new File(petFilePathWithName);
+            System.out.println("File Path and Name: "+petFilePathWithName);
+            System.out.println("Name: " + pet.name);
+            System.out.println("City: " + pet.addrCity);
+            System.out.println("Street: " + pet.addrStreet);
+            System.out.println("House Number: " + pet.addrHouseNumber);
+            System.out.println("Age: " + pet.age);
+            System.out.println("Weight: " + pet.weight);
+            System.out.println("Breed: " + pet.breed);
+            try (FileWriter fw = new FileWriter(petFile, true);
+                 BufferedWriter bw = new BufferedWriter(fw)) {
+                bw.write("File Write Success");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
+        }
 }

@@ -120,14 +120,7 @@ public class PetService {
                         pet.breed = NOT_PROVIDED;
                     }
                     counter++;
-
-                    System.out.println("Name: " + pet.name);
-                    System.out.println("City: " + pet.addrCity);
-                    System.out.println("Street: " + pet.addrStreet);
-                    System.out.println("House Number: " + pet.addrHouseNumber);
-                    System.out.println("Age: " + pet.age);
-                    System.out.println("Weight: " + pet.weight);
-                    System.out.println("Breed: " + pet.breed);
+                    repository.savePet(pet);
                     break;
 
             }
