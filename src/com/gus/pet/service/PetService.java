@@ -138,11 +138,16 @@ public class PetService {
     }
 
     public void updatePet() {
+        Pet search = buildFilter();
+        String answer;
+        System.out.print("\n Choose the number of the pet you want to change: ");
+        answer = input.nextLine();
+
 
     }
 
     public void deletePet() {
-
+        Pet search = buildFilter();
     }
 
     public void listAllPets() {
@@ -150,9 +155,17 @@ public class PetService {
     }
 
     public void listPetWithFilters() {
+
+        Pet search = buildFilter();
+        repository.searchPets(search);
+
+    }
+
+    public Pet buildFilter()
+    {
         String choice;
         Pet filter = new Pet();
-        byte criteria = 0;
+        byte criteriaCount = 0;
         System.out.print("Select the animal type: ");
         choice = input.nextLine();
         if (choice.equals("Dog")) {
@@ -163,85 +176,101 @@ public class PetService {
             throw new IllegalArgumentException("Invalid option");
         }
 
+        while(criteriaCount<2) {
+            System.out.print("Criteria Options");
 
-        System.out.println("\n1 - Name");
-        System.out.println("2 - Sex");
-        System.out.println("3 - Address");
-        System.out.println("4 - Age");
-        System.out.println("5 - Weight");
-        System.out.println("6 - Breed\n");
-        System.out.print("Select up to 2 search criteria:");
+            System.out.println("\n1 - Name");
+            System.out.println("2 - Sex");
+            System.out.println("3 - Address");
+            System.out.println("4 - Age");
+            System.out.println("5 - Weight");
+            System.out.println("6 - Breed\n");
+            System.out.println("Select criteria number "+(criteriaCount+1)+" : ");
 
-        String regex = "\\d";
-        Pattern patter = Pattern.compile(regex);
-        choice = input.nextLine();
-        Matcher matcher = patter.matcher(choice);
-        if (matcher.find() && criteria <= 2) {
-            criteria++;
-            int result = Integer.parseInt(matcher.group());
-            switch (result) {
-                case 1:
-                    System.out.println("Enter name: ");
+            String regex = "\\d";
+            Pattern patter = Pattern.compile(regex);
+            choice = input.nextLine();
+            Matcher matcher = patter.matcher(choice);
+            if (matcher.find()) {
+                int result = Integer.parseInt(matcher.group());
+                switch (result) {
+                    case 1:
+                        System.out.println("Enter name: ");
+                        choice = input.nextLine();
+                        regex = "([a-zA-Z])+(\\s)*([a-zA-Z])*";
+                        patter = Pattern.compile(regex);
+                        matcher = patter.matcher(choice);
+                        if (matcher.find()) {
+                            filter.name = matcher.group();
+                        } else {
+                            throw new IllegalArgumentException("You must write a name and a surname!");
+                        }
+                        break;
+                    case 2:
+                        System.out.println("Enter sex: ");
+                        choice = input.nextLine();
+                        if (choice.equals("Male")) {
+                            filter.sex = petSex.PET_SEX_MALE;
+                        } else if (choice.equals("Female")) {
+                            filter.sex = petSex.PET_SEX_FEMALE;
+                        } else {
+                            throw new IllegalArgumentException("Invalid option");
+                        }
+                        break;
+                    case 3:
+                        System.out.println("Enter address: ");
+                        choice = input.nextLine();
+                        filter.address = choice;
+                        break;
+                    case 4:
+                        System.out.println("Enter age: ");
+                        choice = input.nextLine();
+                        regex = "(\\d)+(\\.)*(\\d)*";
+                        patter = Pattern.compile(regex);
+                        matcher = patter.matcher(choice);
+                        if (matcher.find()) {
+                            filter.age = matcher.group();
+                        }
+                        break;
+                    case 5:
+                        System.out.println("Enter weight: ");
+                        choice = input.nextLine();
+                        regex = "(\\d)+(\\.)*(\\d)*";
+                        patter = Pattern.compile(regex);
+                        matcher = patter.matcher(choice);
+                        if (matcher.find()) {
+                            filter.weight = matcher.group();
+                        }
+                        break;
+                    case 6:
+                        System.out.println("Enter breed: ");
+                        choice = input.nextLine();
+                        regex = "([a-zA-Z])+(\\s)*([a-zA-Z])*";
+                        patter = Pattern.compile(regex);
+                        matcher = patter.matcher(choice);
+                        if (matcher.find()) {
+                            filter.breed = matcher.group();
+                        }
+                        break;
+                }
+                if(criteriaCount == 0) {
+                    System.out.println("Add a second criteria? (Y/N)");
                     choice = input.nextLine();
-                    regex = "([a-zA-Z])+(\\s)*([a-zA-Z])*";
-                    patter = Pattern.compile(regex);
-                    matcher = patter.matcher(choice);
-                    if (matcher.find()) {
-                        filter.name = matcher.group();
-                    } else {
-                        throw new IllegalArgumentException("You must write a name and a surname!");
+                    if (choice.equals("Y")) {
+                        criteriaCount++;
                     }
-                    break;
-                case 2:
-                    System.out.println("Enter sex: ");
-                    choice = input.nextLine();
-                    if (choice.equals("Male")) {
-                        filter.sex = petSex.PET_SEX_MALE;
-                    } else if (choice.equals("Female")) {
-                        filter.sex = petSex.PET_SEX_FEMALE;
-                    } else {
-                        throw new IllegalArgumentException("Invalid option");
+                    else {
+                        criteriaCount = 2;
                     }
-                    break;
-                case 3:
-                    System.out.println("Enter address: ");
-                    choice = input.nextLine();
-                    filter.address = choice;
-                    break;
-                case 4:
-                    System.out.println("Enter age: ");
-                    choice = input.nextLine();
-                    regex = "(\\d)+(\\.)*(\\d)*";
-                    patter = Pattern.compile(regex);
-                    matcher = patter.matcher(choice);
-                    if (matcher.find()) {
-                        filter.age = matcher.group();
-                    }
-                    break;
-                case 5:
-                    System.out.println("Enter weight: ");
-                    choice = input.nextLine();
-                    regex = "(\\d)+(\\.)*(\\d)*";
-                    patter = Pattern.compile(regex);
-                    matcher = patter.matcher(choice);
-                    if (matcher.find()) {
-                        filter.weight = matcher.group();
-                    }
-                    break;
-                case 6:
-                    System.out.println("Enter breed: ");
-                    choice = input.nextLine();
-                    regex = "([a-zA-Z])+(\\s)*([a-zA-Z])*";
-                    patter = Pattern.compile(regex);
-                    matcher = patter.matcher(choice);
-                    if (matcher.find()) {
-                        filter.breed = matcher.group();
-                    }
-                    break;
+                }
+                else
+                {
+                    criteriaCount = 2;
+                }
+
             }
-            repository.searchPets(filter);
         }
-
+        return filter;
     }
 
 

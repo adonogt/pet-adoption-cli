@@ -7,8 +7,6 @@ import com.gus.pet.entity.petType;
 import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static com.gus.pet.entity.Pet.NOT_PROVIDED;
 
@@ -136,7 +134,7 @@ public class PetRepository {
             File[] fileList = folderDirectory.listFiles();
 
             for (int i = 0; i < fileList.length; i++) {
-                //System.out.println(fileList[i].getName());
+
                 System.out.print("\n " + (i + 1) + " - ");
                 try (FileReader fr = new FileReader(fileList[i]);
                      BufferedReader br = new BufferedReader(fr)) {
@@ -152,7 +150,20 @@ public class PetRepository {
         }
     }
 
+    public void removePet(Pet del) {
+
+
+    }
+
+    public void overwritePet(Pet over) {
+
+
+    }
+
+
     public void searchPets(Pet target) {
+
+        boolean petMatch = false;
 
         Pet currentPet = new Pet();
         if (folderDirectory.exists() && folderDirectory.isDirectory()) {
@@ -160,52 +171,45 @@ public class PetRepository {
 
             for (int i = 0; i < fileList.length; i++) {
                 currentPet = loadPet(fileList[i]);
-                if (!target.name.equals(NOT_PROVIDED)) {
-                    if (currentPet.name.contains(target.name)) {
+                petMatch = false;
+                if (!target.name.equals(NOT_PROVIDED) && !petMatch) {
+                    if (currentPet.name.toLowerCase().contains(target.name.toLowerCase())) {
+                        System.out.print((i + 1) + ". ");
                         currentPet.printPet();
+                        petMatch = true;
                     }
-                } else if (target.sex != petSex.PET_SEX_NOT_PROVIDED) {
+                }
+                if (target.sex != petSex.PET_SEX_NOT_PROVIDED && !petMatch) {
                     if (currentPet.sex == target.sex) {
+                        System.out.print((i + 1) + ". ");
                         currentPet.printPet();
-                    }
-                } else if (!target.address.equals(NOT_PROVIDED)) {
-                    if (currentPet.address.contains(target.address)) {
-                        currentPet.printPet();
-                    }
-                } else if (!target.age.equals(NOT_PROVIDED)) {
-                    if (currentPet.age.contains(target.age)) {
-                        currentPet.printPet();
-                    }
-                } else if (!target.breed.equals(NOT_PROVIDED)) {
-                    if (currentPet.breed.contains(target.breed)) {
-                        currentPet.printPet();
+                        petMatch = true;
                     }
                 }
-                else{
-                    System.out.println("No result");
+                if (!target.address.equals(NOT_PROVIDED)) {
+                    if (currentPet.address.toLowerCase().contains(target.address.toLowerCase()) && !petMatch) {
+                        System.out.print((i + 1) + ". ");
+                        currentPet.printPet();
+                        petMatch = true;
+                    }
                 }
-
+                if (!target.age.equals(NOT_PROVIDED)) {
+                    if (currentPet.age.contains(target.age) && !petMatch) {
+                        System.out.print((i + 1) + ". ");
+                        currentPet.printPet();
+                        petMatch = true;
+                    }
+                }
+                if (!target.breed.equals(NOT_PROVIDED)) {
+                    if (currentPet.breed.toLowerCase().contains(target.breed.toLowerCase()) && !petMatch) {
+                        System.out.print((i + 1) + ". ");
+                        currentPet.printPet();
+                        petMatch = true;
+                    }
+                }
             }
             System.out.println("End of search.");
         }
     }
-
-//    public String readPetFile(File petFile) {
-//
-//        StringBuilder sb = new StringBuilder();
-//
-//        try (FileReader fr = new FileReader(petFile);
-//             BufferedReader br = new BufferedReader(fr)) {
-//            String line;
-//            while ((line = br.readLine()) != null) {
-//                sb.append(line);
-//            }
-//        } catch (IOException ex) {
-//            ex.printStackTrace();
-//        }
-//
-//        return sb.toString();
-//    }
-
 
 }

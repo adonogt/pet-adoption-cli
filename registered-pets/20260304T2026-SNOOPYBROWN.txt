@@ -1,0 +1,7 @@
+1 - Snoopy Brown
+2 - Dog
+3 - Male
+4 - 42 , Peanuts St, Hometowm
+5 - 3 years old
+6 - 9 kg
+7 - Beagle
