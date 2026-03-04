@@ -151,14 +151,14 @@ public class PetService {
 
     public void listPetWithFilters() {
         String choice;
-        String keyword;
+        Pet filter = new Pet();
         byte criteria = 0;
         System.out.print("Select the animal type: ");
         choice = input.nextLine();
         if (choice.equals("Dog")) {
-            keyword = "Dog";
+            filter.type = petType.PET_TYPE_DOG;
         } else if (choice.equals("Cat")) {
-            keyword = "Cat";
+            filter.type = petType.PET_TYPE_CAT;
         } else {
             throw new IllegalArgumentException("Invalid option");
         }
@@ -187,7 +187,7 @@ public class PetService {
                     patter = Pattern.compile(regex);
                     matcher = patter.matcher(choice);
                     if (matcher.find()) {
-                        keyword = matcher.group();
+                        filter.name = matcher.group();
                     } else {
                         throw new IllegalArgumentException("You must write a name and a surname!");
                     }
@@ -196,9 +196,9 @@ public class PetService {
                     System.out.println("Enter sex: ");
                     choice = input.nextLine();
                     if (choice.equals("Male")) {
-                        keyword = "Male";
+                        filter.sex = petSex.PET_SEX_MALE;
                     } else if (choice.equals("Female")) {
-                        keyword = "Female";
+                        filter.sex = petSex.PET_SEX_FEMALE;
                     } else {
                         throw new IllegalArgumentException("Invalid option");
                     }
@@ -206,7 +206,7 @@ public class PetService {
                 case 3:
                     System.out.println("Enter address: ");
                     choice = input.nextLine();
-                    keyword = choice;
+                    filter.address = choice;
                     break;
                 case 4:
                     System.out.println("Enter age: ");
@@ -215,10 +215,7 @@ public class PetService {
                     patter = Pattern.compile(regex);
                     matcher = patter.matcher(choice);
                     if (matcher.find()) {
-                        keyword = matcher.group();
-
-                    } else {
-                        keyword = NOT_PROVIDED;
+                        filter.age = matcher.group();
                     }
                     break;
                 case 5:
@@ -228,9 +225,7 @@ public class PetService {
                     patter = Pattern.compile(regex);
                     matcher = patter.matcher(choice);
                     if (matcher.find()) {
-                        keyword = matcher.group();
-                    } else {
-                        keyword = NOT_PROVIDED;
+                        filter.weight = matcher.group();
                     }
                     break;
                 case 6:
@@ -240,13 +235,11 @@ public class PetService {
                     patter = Pattern.compile(regex);
                     matcher = patter.matcher(choice);
                     if (matcher.find()) {
-                        keyword = matcher.group();
-                    } else {
-                        keyword = NOT_PROVIDED;
+                        filter.breed = matcher.group();
                     }
                     break;
             }
-            repository.listPetWithFilters(keyword);
+            repository.searchPets(filter);
         }
 
     }
