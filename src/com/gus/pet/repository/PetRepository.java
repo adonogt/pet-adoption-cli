@@ -5,6 +5,8 @@ import com.gus.pet.entity.Pet;
 import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PetRepository {
     File file = new File("src/resources/pet_registration_form.txt");
@@ -65,7 +67,7 @@ public class PetRepository {
                 bw.write(pet.sex.getSex());
                 bw.newLine();
                 bw.write("4 - ");
-                bw.write(pet.addr);
+                bw.write(pet.address);
                 bw.newLine();
                 bw.write("5 - ");
                 bw.write(pet.age);
@@ -89,28 +91,64 @@ public class PetRepository {
 
     }
 
-    public void listAllPetFiles(){
-        if(folderDirectory.exists()&& folderDirectory.isDirectory())
-        {
-            File[] fileList = folderDirectory.listFiles();
+    public String readPetFile(File petFile){
 
-            for (int i = 0; i < fileList.length; i++) {
-                System.out.println(fileList[i].getName());
-                readPetFile(fileList[i]);
-            }
-        }
-    }
-
-    public void readPetFile(File petFile){
+        StringBuilder sb = new StringBuilder();
 
         try (FileReader fr = new FileReader(petFile);
              BufferedReader br = new BufferedReader(fr)) {
             String line;
             while ((line = br.readLine()) != null) {
-                System.out.println(line);
+               sb.append(line);
             }
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+
+        return sb.toString();
     }
+
+    public void listAllPet(){
+        if(folderDirectory.exists()&& folderDirectory.isDirectory())
+        {
+            File[] fileList = folderDirectory.listFiles();
+
+            for (int i = 0; i < fileList.length; i++) {
+                //System.out.println(fileList[i].getName());
+                System.out.print("\n "+(i+1)+" - ");
+                try (FileReader fr = new FileReader(fileList[i]);
+                     BufferedReader br = new BufferedReader(fr)) {
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        System.out.print(line);
+                    }
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            System.out.println("\n\n End of list");
+        }
+    }
+
+    public void listPetWithFilters(String keyword){
+
+        Pattern pattern = Pattern.compile(keyword);
+
+        if(folderDirectory.exists()&& folderDirectory.isDirectory())
+        {
+            File[] fileList = folderDirectory.listFiles();
+
+            for (int i = 0; i < fileList.length; i++) {
+                Matcher matcher = pattern.matcher(readPetFile(fileList[i]));
+                if (matcher.find()) {
+                    System.out.println("\nResults");
+                    System.out.print(+(i+1)+" - ");
+                    System.out.println(readPetFile(fileList[i]));
+                    System.out.println("\nEnd of Results");
+                }
+            }
+        }
+    }
+
+
 }
