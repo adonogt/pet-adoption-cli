@@ -5,6 +5,7 @@ import com.gus.pet.entity.petSex;
 import com.gus.pet.entity.petType;
 import com.gus.pet.repository.PetRepository;
 
+import java.io.File;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -139,15 +140,22 @@ public class PetService {
 
     public void updatePet() {
         Pet search = buildFilter();
-        String answer;
+        repository.searchPets(search);
         System.out.print("\n Choose the number of the pet you want to change: ");
-        answer = input.nextLine();
 
 
     }
 
     public void deletePet() {
         Pet search = buildFilter();
+        File[] petFound = repository.searchPets(search);
+        int index = 0;
+        String answer;
+        System.out.print("\n Choose the number of the pet you want to delete: ");
+        answer = input.nextLine();
+        index = Integer.parseInt(answer);
+
+        repository.removePet(petFound[index-1]);
     }
 
     public void listAllPets() {

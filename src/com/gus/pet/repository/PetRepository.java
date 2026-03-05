@@ -150,7 +150,7 @@ public class PetRepository {
         }
     }
 
-    public void removePet(Pet del) {
+    public void removePet(File petfile) {
 
 
     }
@@ -161,55 +161,54 @@ public class PetRepository {
     }
 
 
-    public void searchPets(Pet target) {
+    public File[] searchPets(Pet target) {
 
-        boolean petMatch = false;
+        File[] petFound = null;
 
-        Pet currentPet = new Pet();
         if (folderDirectory.exists() && folderDirectory.isDirectory()) {
             File[] fileList = folderDirectory.listFiles();
-
+            petFound = new File[fileList.length];
+            boolean petMatch = false;
             for (int i = 0; i < fileList.length; i++) {
-                currentPet = loadPet(fileList[i]);
-                petMatch = false;
-                if (!target.name.equals(NOT_PROVIDED) && !petMatch) {
-                    if (currentPet.name.toLowerCase().contains(target.name.toLowerCase())) {
-                        System.out.print((i + 1) + ". ");
-                        currentPet.printPet();
-                        petMatch = true;
+                Pet currentPet = loadPet(fileList[i]);
+                petMatch = true;
+                if (!target.name.equals(NOT_PROVIDED)) {
+                    if (!currentPet.name.toLowerCase().contains(target.name.toLowerCase())) {
+                        petMatch = false;
                     }
                 }
-                if (target.sex != petSex.PET_SEX_NOT_PROVIDED && !petMatch) {
-                    if (currentPet.sex == target.sex) {
-                        System.out.print((i + 1) + ". ");
-                        currentPet.printPet();
-                        petMatch = true;
+                if (target.sex != petSex.PET_SEX_NOT_PROVIDED) {
+                    if (currentPet.sex != target.sex) {
+                        petMatch = false;
                     }
                 }
                 if (!target.address.equals(NOT_PROVIDED)) {
-                    if (currentPet.address.toLowerCase().contains(target.address.toLowerCase()) && !petMatch) {
-                        System.out.print((i + 1) + ". ");
-                        currentPet.printPet();
-                        petMatch = true;
+                    if (!currentPet.address.toLowerCase().contains(target.address.toLowerCase())) {
+                        petMatch = false;
                     }
                 }
                 if (!target.age.equals(NOT_PROVIDED)) {
-                    if (currentPet.age.contains(target.age) && !petMatch) {
-                        System.out.print((i + 1) + ". ");
-                        currentPet.printPet();
-                        petMatch = true;
+                    if (!currentPet.age.contains(target.age)) {
+                        petMatch = false;
                     }
                 }
                 if (!target.breed.equals(NOT_PROVIDED)) {
-                    if (currentPet.breed.toLowerCase().contains(target.breed.toLowerCase()) && !petMatch) {
-                        System.out.print((i + 1) + ". ");
-                        currentPet.printPet();
-                        petMatch = true;
+                    if (!currentPet.breed.toLowerCase().contains(target.breed.toLowerCase())) {
+                        petMatch = false;
                     }
+                }
+
+                if (petMatch) {
+                    System.out.print((i + 1) + ". ");
+                    currentPet.printPet();
+                    petFound[i] = fileList[i];
                 }
             }
             System.out.println("End of search.");
         }
+
+        return petFound;
+
     }
 
 }
