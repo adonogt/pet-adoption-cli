@@ -12,7 +12,7 @@ import static com.gus.pet.entity.Pet.NOT_PROVIDED;
 
 public class PetRepository {
     File file = new File("src/resources/pet_registration_form.txt");
-    File folderDirectory = new File("registered-pets");
+    File folderDirectory = new File("registered-pets/");
 
 
     public boolean readForm(short lineNumber) {
@@ -151,8 +151,13 @@ public class PetRepository {
     }
 
     public void removePet(File petfile) {
+        boolean isDeleted = petfile.delete();
 
-
+        if (isDeleted) {
+            System.out.println("Pet deleted successful!");
+        } else {
+            System.out.println("Error with deleting process!");
+        }
     }
 
     public void overwritePet(Pet over) {

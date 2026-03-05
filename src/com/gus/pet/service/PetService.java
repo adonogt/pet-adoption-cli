@@ -154,8 +154,15 @@ public class PetService {
         System.out.print("\n Choose the number of the pet you want to delete: ");
         answer = input.nextLine();
         index = Integer.parseInt(answer);
-
-        repository.removePet(petFound[index-1]);
+        System.out.println("\n Are you sure you want to delete this pet? (Y/N)");
+        answer = input.nextLine();
+        if (answer.equals("Y")) {
+            repository.removePet(petFound[index - 1]);
+        }
+        else
+        {
+            System.out.println("End of process");
+        }
     }
 
     public void listAllPets() {
