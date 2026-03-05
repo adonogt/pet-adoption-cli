@@ -140,8 +140,77 @@ public class PetService {
 
     public void updatePet() {
         Pet search = buildFilter();
-        repository.searchPets(search);
+        String choice;
+        File[] petToOverWrite = repository.searchPets(search);
         System.out.print("\n Choose the number of the pet you want to change: ");
+        choice = input.nextLine();
+        int index = Integer.parseInt(choice);
+        Pet oldPet = repository.loadPet(petToOverWrite[index-1]);
+        System.out.println("\n1 - Name");
+        System.out.println("2 - Address");
+        System.out.println("3 - Age");
+        System.out.println("4 - Weight");
+        System.out.println("5 - Breed\n");
+        System.out.print("Select what do you want to change: ");
+
+        String regex = "\\d";
+        Pattern patter = Pattern.compile(regex);
+        choice = input.nextLine();
+        Matcher matcher = patter.matcher(choice);
+        if (matcher.find()) {
+            int result = Integer.parseInt(matcher.group());
+
+            switch (result) {
+                case 1:
+                    System.out.println("Enter name: ");
+                    choice = input.nextLine();
+                    regex = "([a-zA-Z])+(\\s)+([a-zA-Z])+";
+                    patter = Pattern.compile(regex);
+                    matcher = patter.matcher(choice);
+                    if (matcher.find()) {
+                        oldPet.name = matcher.group();
+                    } else {
+                        throw new IllegalArgumentException("You must write a name and a surname!");
+                    }
+                    break;
+                case 2:
+                    System.out.println("Enter address: ");
+                    choice = input.nextLine();
+                    oldPet.address = choice;
+                    break;
+                case 3:
+                    System.out.println("Enter age: ");
+                    choice = input.nextLine();
+                    regex = "(\\d)+(\\.)*(\\d)*";
+                    patter = Pattern.compile(regex);
+                    matcher = patter.matcher(choice);
+                    if (matcher.find()) {
+                        oldPet.age = matcher.group();
+                    }
+                    break;
+                case 4:
+                    System.out.println("Enter weight: ");
+                    choice = input.nextLine();
+                    regex = "(\\d)+(\\.)*(\\d)*";
+                    patter = Pattern.compile(regex);
+                    matcher = patter.matcher(choice);
+                    if (matcher.find()) {
+                        oldPet.weight = matcher.group();
+                    }
+                    break;
+                case 5:
+                    System.out.println("Enter breed: ");
+                    choice = input.nextLine();
+                    regex = "([a-zA-Z])+(\\s)*([a-zA-Z])*";
+                    patter = Pattern.compile(regex);
+                    matcher = patter.matcher(choice);
+                    if (matcher.find()) {
+                        oldPet.breed = matcher.group();
+                    }
+                    break;
+            }
+            repository.overwritePet(petToOverWrite[index-1], oldPet);
+        }
 
 
     }

@@ -116,8 +116,8 @@ public class PetRepository {
                     oldPet.sex = petSex.PET_SEX_NOT_PROVIDED;
                 }
                 oldPet.address = br.readLine().substring(4);
-                oldPet.age = br.readLine().substring(4);
-                oldPet.weight = br.readLine().substring(4);
+                oldPet.age = br.readLine().substring(4).replace("years old","").trim();
+                oldPet.weight = br.readLine().substring(4).replace("kg","").trim();
                 oldPet.breed = br.readLine().substring(4);
 
             } catch (IOException ex) {
@@ -160,8 +160,10 @@ public class PetRepository {
         }
     }
 
-    public void overwritePet(Pet over) {
+    public void overwritePet(File path, Pet over) {
 
+        removePet(path);
+        savePet(over);
 
     }
 
