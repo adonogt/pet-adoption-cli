@@ -15,8 +15,7 @@ public class PetRepository {
     File folderDirectory = new File("registered-pets/");
 
 
-    public boolean readForm(short lineNumber) {
-
+    public void readForm(short lineNumber) {
         try (FileReader fr = new FileReader(file);
              BufferedReader br = new BufferedReader(fr)) {
             String line = null;
@@ -31,17 +30,11 @@ public class PetRepository {
             }
             if ((line != null)) {
                 System.out.println(line);
-                return true;
-            } else {
-                return false;
-            }
 
+            }
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-
-        return false;
-
     }
 
     public void savePet(Pet pet) {
@@ -131,14 +124,12 @@ public class PetRepository {
 
     public void listAllPet() {
 
-        Pet pet = new Pet();
-
         if (folderDirectory.exists() && folderDirectory.isDirectory()) {
             File[] fileList = folderDirectory.listFiles();
 
             for (int i = 0; i < fileList.length; i++) {
 
-                pet = loadPet(fileList[i]);
+               Pet pet = loadPet(fileList[i]);
 
                 if(pet!= null){
                     System.out.print((i+1)+" - ");
@@ -151,18 +142,13 @@ public class PetRepository {
     }
 
     public boolean removePet(File petfile) {
-        boolean isDeleted = petfile.delete();
-
-      return isDeleted;
+      return petfile.delete();
     }
 
     public void overwritePet(File path, Pet over) {
-
         removePet(path);
         savePet(over);
-
     }
-
 
     public File[] searchPets(Pet target) {
 
@@ -212,9 +198,6 @@ public class PetRepository {
             }
             System.out.println("End of search.");
         }
-
         return petFound;
-
     }
-
 }

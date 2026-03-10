@@ -14,7 +14,7 @@ import static com.gus.pet.entity.Pet.NOT_PROVIDED;
 
 
 public class PetService {
-    private Scanner input;
+    private final Scanner input;
 
     public PetService(Scanner keyboard) {
         this.input = keyboard;
