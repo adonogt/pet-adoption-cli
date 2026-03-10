@@ -1,7 +1,0 @@
-1 - Brian Griffin
-2 - Dog
-3 - Male
-4 - 31, Spooner St, Quahog
-5 - 6 years old
-6 - 12 kg
-7 - Labrador Retriever

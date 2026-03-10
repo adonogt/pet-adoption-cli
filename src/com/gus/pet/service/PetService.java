@@ -148,7 +148,7 @@ public class PetService {
         System.out.print("\n Choose the number of the pet you want to change: ");
         choice = input.nextLine();
         int index = Integer.parseInt(choice);
-        if (index < petToOverWrite.length && petToOverWrite[index] == null) {
+        if (index-1 < petToOverWrite.length && petToOverWrite[index-1] == null) {
             System.out.println("invalid pet number!!!");
             return;
         }
@@ -233,9 +233,15 @@ public class PetService {
         System.out.print("\n Choose the number of the pet you want to delete: ");
         answer = input.nextLine();
         index = Integer.parseInt(answer);
+
         System.out.println("\n Are you sure you want to delete this pet? (Yes/No)");
         answer = input.nextLine();
         if (answer.equals("Yes")) {
+            if (index -1 < petFound.length && petFound[index -1] == null) {
+                System.out.println("Invalid option");
+                return;
+            }
+
             if (repository.removePet(petFound[index - 1])) {
                 System.out.println("Pet deleted successful!");
             } else {
