@@ -133,6 +133,9 @@ public class PetService {
                     counter++;
                     repository.savePet(pet);
                     break;
+                default:
+                    System.out.println("Invalid option!");
+                    break;
 
             }
         }
@@ -145,7 +148,11 @@ public class PetService {
         System.out.print("\n Choose the number of the pet you want to change: ");
         choice = input.nextLine();
         int index = Integer.parseInt(choice);
-        Pet oldPet = repository.loadPet(petToOverWrite[index-1]);
+        if (index < petToOverWrite.length  && petToOverWrite[index] == null ) {
+            System.out.println("invalid pet number!!!");
+            return;
+        }
+        Pet oldPet = repository.loadPet(petToOverWrite[index - 1]);
         System.out.println("\n1 - Name");
         System.out.println("2 - Address");
         System.out.println("3 - Age");
@@ -208,8 +215,11 @@ public class PetService {
                         oldPet.breed = matcher.group();
                     }
                     break;
+                default:
+                    System.out.println("Invalid option!");
+                    break;
             }
-            repository.overwritePet(petToOverWrite[index-1], oldPet);
+            repository.overwritePet(petToOverWrite[index - 1], oldPet);
         }
 
 
@@ -223,13 +233,11 @@ public class PetService {
         System.out.print("\n Choose the number of the pet you want to delete: ");
         answer = input.nextLine();
         index = Integer.parseInt(answer);
-        System.out.println("\n Are you sure you want to delete this pet? (Y/N)");
+        System.out.println("\n Are you sure you want to delete this pet? (Yes/No)");
         answer = input.nextLine();
-        if (answer.equals("Y")) {
+        if (answer.equals("Yes")) {
             repository.removePet(petFound[index - 1]);
-        }
-        else
-        {
+        } else {
             System.out.println("End of process");
         }
     }
@@ -245,8 +253,7 @@ public class PetService {
 
     }
 
-    public Pet buildFilter()
-    {
+    public Pet buildFilter() {
         String choice;
         Pet filter = new Pet();
         byte criteriaCount = 0;
@@ -260,7 +267,7 @@ public class PetService {
             throw new IllegalArgumentException("Invalid option");
         }
 
-        while(criteriaCount<2) {
+        while (criteriaCount < 2) {
             System.out.print("Criteria Options");
 
             System.out.println("\n1 - Name");
@@ -269,7 +276,7 @@ public class PetService {
             System.out.println("4 - Age");
             System.out.println("5 - Weight");
             System.out.println("6 - Breed\n");
-            System.out.println("Select criteria number "+(criteriaCount+1)+" : ");
+            System.out.println("Select criteria number " + (criteriaCount + 1) + " : ");
 
             String regex = "\\d";
             Pattern patter = Pattern.compile(regex);
@@ -336,19 +343,19 @@ public class PetService {
                             filter.breed = matcher.group();
                         }
                         break;
+                    default:
+                        System.out.println("Invalid option!");
+                        break;
                 }
-                if(criteriaCount == 0) {
+                if (criteriaCount == 0) {
                     System.out.println("Add a second criteria? (Y/N)");
                     choice = input.nextLine();
                     if (choice.equals("Y")) {
                         criteriaCount++;
-                    }
-                    else {
+                    } else {
                         criteriaCount = 2;
                     }
-                }
-                else
-                {
+                } else {
                     criteriaCount = 2;
                 }
 

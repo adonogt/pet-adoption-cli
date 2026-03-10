@@ -22,9 +22,10 @@ public class Pet {
 
     public void printPet() {
         System.out.print(this.name + " - ");
-        System.out.print(this.sex + " - ");
+        System.out.printf(this.type.getType() + " - ");
+        System.out.print(this.sex.getSex() + " - ");
         System.out.print(this.address + " - ");
-        System.out.print(this.age + "years old - ");
+        System.out.print(this.age + " years old - ");
         System.out.print(this.weight + "kg - ");
         System.out.print(this.breed + "\n");
     }

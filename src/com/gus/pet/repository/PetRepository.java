@@ -130,21 +130,21 @@ public class PetRepository {
 
 
     public void listAllPet() {
+
+        Pet pet = new Pet();
+
         if (folderDirectory.exists() && folderDirectory.isDirectory()) {
             File[] fileList = folderDirectory.listFiles();
 
             for (int i = 0; i < fileList.length; i++) {
 
-                System.out.print("\n " + (i + 1) + " - ");
-                try (FileReader fr = new FileReader(fileList[i]);
-                     BufferedReader br = new BufferedReader(fr)) {
-                    String line;
-                    while ((line = br.readLine()) != null) {
-                        System.out.print(line);
-                    }
-                } catch (IOException ex) {
-                    ex.printStackTrace();
+                pet = loadPet(fileList[i]);
+
+                if(pet!= null){
+                    System.out.print((i+1)+" - ");
+                    pet.printPet();
                 }
+
             }
             System.out.println("\n\n End of list");
         }
@@ -178,37 +178,39 @@ public class PetRepository {
             boolean petMatch = false;
             for (int i = 0; i < fileList.length; i++) {
                 Pet currentPet = loadPet(fileList[i]);
-                petMatch = true;
-                if (!target.name.equals(NOT_PROVIDED)) {
-                    if (!currentPet.name.toLowerCase().contains(target.name.toLowerCase())) {
-                        petMatch = false;
+                if (currentPet.type == target.type) {
+                    petMatch = true;
+                    if (!target.name.equals(NOT_PROVIDED)) {
+                        if (!currentPet.name.toLowerCase().contains(target.name.toLowerCase())) {
+                            petMatch = false;
+                        }
                     }
-                }
-                if (target.sex != petSex.PET_SEX_NOT_PROVIDED) {
-                    if (currentPet.sex != target.sex) {
-                        petMatch = false;
+                    if (target.sex != petSex.PET_SEX_NOT_PROVIDED) {
+                        if (currentPet.sex != target.sex) {
+                            petMatch = false;
+                        }
                     }
-                }
-                if (!target.address.equals(NOT_PROVIDED)) {
-                    if (!currentPet.address.toLowerCase().contains(target.address.toLowerCase())) {
-                        petMatch = false;
+                    if (!target.address.equals(NOT_PROVIDED)) {
+                        if (!currentPet.address.toLowerCase().contains(target.address.toLowerCase())) {
+                            petMatch = false;
+                        }
                     }
-                }
-                if (!target.age.equals(NOT_PROVIDED)) {
-                    if (!currentPet.age.contains(target.age)) {
-                        petMatch = false;
+                    if (!target.age.equals(NOT_PROVIDED)) {
+                        if (!currentPet.age.contains(target.age)) {
+                            petMatch = false;
+                        }
                     }
-                }
-                if (!target.breed.equals(NOT_PROVIDED)) {
-                    if (!currentPet.breed.toLowerCase().contains(target.breed.toLowerCase())) {
-                        petMatch = false;
+                    if (!target.breed.equals(NOT_PROVIDED)) {
+                        if (!currentPet.breed.toLowerCase().contains(target.breed.toLowerCase())) {
+                            petMatch = false;
+                        }
                     }
-                }
 
-                if (petMatch) {
-                    System.out.print((i + 1) + ". ");
-                    currentPet.printPet();
-                    petFound[i] = fileList[i];
+                    if (petMatch) {
+                        System.out.print((i + 1) + ". ");
+                        currentPet.printPet();
+                        petFound[i] = fileList[i];
+                    }
                 }
             }
             System.out.println("End of search.");

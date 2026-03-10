@@ -8,13 +8,15 @@ import java.util.regex.Pattern;
 
 public class Menu {
     public Scanner input;
+    PetService service = null;
     public Menu(Scanner keyboard) {
         this.input = keyboard;
+        this.service = new PetService(input);
     }
+
 
     public boolean printOptions() {
 
-        PetService service = new PetService(input);
         System.out.println("\n1 - Register a new pet.");
         System.out.println("2 - Update the data of a registered pet.");
         System.out.println("3 - Delete a registered pet.");
