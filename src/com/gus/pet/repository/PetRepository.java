@@ -150,14 +150,10 @@ public class PetRepository {
         }
     }
 
-    public void removePet(File petfile) {
+    public boolean removePet(File petfile) {
         boolean isDeleted = petfile.delete();
 
-        if (isDeleted) {
-            System.out.println("Pet deleted successful!");
-        } else {
-            System.out.println("Error with deleting process!");
-        }
+      return isDeleted;
     }
 
     public void overwritePet(File path, Pet over) {
@@ -171,7 +167,7 @@ public class PetRepository {
     public File[] searchPets(Pet target) {
 
         File[] petFound = null;
-
+        short foundPetIndex = 0;
         if (folderDirectory.exists() && folderDirectory.isDirectory()) {
             File[] fileList = folderDirectory.listFiles();
             petFound = new File[fileList.length];
@@ -207,9 +203,10 @@ public class PetRepository {
                     }
 
                     if (petMatch) {
-                        System.out.print((i + 1) + ". ");
+                        System.out.print((foundPetIndex + 1) + ". ");
                         currentPet.printPet();
-                        petFound[i] = fileList[i];
+                        petFound[foundPetIndex] = fileList[i];
+                        foundPetIndex++;
                     }
                 }
             }

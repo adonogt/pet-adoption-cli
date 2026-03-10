@@ -48,10 +48,10 @@ public class PetService {
                     break;
                 case 2:
                     repository.readForm(counter);
-                    answer = input.nextLine();
-                    if (answer.equals("Dog")) {
+                    answer = input.nextLine().toLowerCase();
+                    if (answer.equals("dog")) {
                         pet.type = petType.PET_TYPE_DOG;
-                    } else if (answer.equals("Cat")) {
+                    } else if (answer.equals("cat")) {
                         pet.type = petType.PET_TYPE_CAT;
                     } else {
                         pet.type = petType.PET_TYPE_NOT_PROVIDED;
@@ -60,10 +60,10 @@ public class PetService {
                     break;
                 case 3:
                     repository.readForm(counter);
-                    answer = input.nextLine();
-                    if (answer.equals("Male")) {
+                    answer = input.nextLine().toLowerCase();
+                    if (answer.equals("male")) {
                         pet.sex = petSex.PET_SEX_MALE;
-                    } else if (answer.equals("Female")) {
+                    } else if (answer.equals("female")) {
                         pet.sex = petSex.PET_SEX_FEMALE;
                     } else {
                         pet.sex = petSex.PET_SEX_NOT_PROVIDED;
@@ -148,7 +148,7 @@ public class PetService {
         System.out.print("\n Choose the number of the pet you want to change: ");
         choice = input.nextLine();
         int index = Integer.parseInt(choice);
-        if (index < petToOverWrite.length  && petToOverWrite[index] == null ) {
+        if (index < petToOverWrite.length && petToOverWrite[index] == null) {
             System.out.println("invalid pet number!!!");
             return;
         }
@@ -236,7 +236,12 @@ public class PetService {
         System.out.println("\n Are you sure you want to delete this pet? (Yes/No)");
         answer = input.nextLine();
         if (answer.equals("Yes")) {
-            repository.removePet(petFound[index - 1]);
+            if (repository.removePet(petFound[index - 1])) {
+                System.out.println("Pet deleted successful!");
+            } else {
+                System.out.println("Pet deleted error");
+            }
+
         } else {
             System.out.println("End of process");
         }
@@ -258,10 +263,10 @@ public class PetService {
         Pet filter = new Pet();
         byte criteriaCount = 0;
         System.out.print("Select the animal type: ");
-        choice = input.nextLine();
-        if (choice.equals("Dog")) {
+        choice = input.nextLine().toLowerCase();
+        if (choice.equals("dog")) {
             filter.type = petType.PET_TYPE_DOG;
-        } else if (choice.equals("Cat")) {
+        } else if (choice.equals("cat")) {
             filter.type = petType.PET_TYPE_CAT;
         } else {
             throw new IllegalArgumentException("Invalid option");
@@ -299,10 +304,10 @@ public class PetService {
                         break;
                     case 2:
                         System.out.println("Enter sex: ");
-                        choice = input.nextLine();
-                        if (choice.equals("Male")) {
+                        choice = input.nextLine().toLowerCase();
+                        if (choice.equals("male")) {
                             filter.sex = petSex.PET_SEX_MALE;
-                        } else if (choice.equals("Female")) {
+                        } else if (choice.equals("female")) {
                             filter.sex = petSex.PET_SEX_FEMALE;
                         } else {
                             throw new IllegalArgumentException("Invalid option");
